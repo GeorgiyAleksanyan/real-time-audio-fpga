@@ -56,27 +56,7 @@ Concurrent Audio Pipelines: The FPGA can be structured to run multiple audio eff
 
 System Architecture
 The system is designed with a clear data path, from initial capture to final visualization.
-
-           +-----------------------------+
-           |       Xilinx Zynq SoC       |
-           |                             |
-           |  +-----------------------+  |      Serial      +----------------+
-Audio In ->|  |  Programmable Logic   |  |       Data       |    Host PC     |
-(I2S Mic)  |  |       (FPGA)          |  +----------------> |                |
-           |  | +--------+ +--------+ |  |                  | +------------+ |
-           |  | |  I2S   | |  DSP   | |  |                  | | Python     | |
-           |  | | Rx     | |  Core  | |  |                  | | Visualizer | |
-           |  | +--------> +--------+ |  |                  | +------------+ |
-           |  |      ^         |      |  |                  +----------------+
-           |  +------|---------|------+  |
-           |         |         |         |
-           |  +------v---------v------+  |
-           |  |   Processing System   |  |
-           |  |        (ARM CPU)      |  |
-           |  | (Controls & UART Tx)  |  |
-           |  +-----------------------+  |
-           |                             |
-           +-----------------------------+
+<img width="701" height="528" alt="image" src="https://github.com/user-attachments/assets/6405751a-5854-4bbf-b245-bb4af4e951c2" />
 
 Project Phases
 Development is broken down into three logical and sequential phases.
