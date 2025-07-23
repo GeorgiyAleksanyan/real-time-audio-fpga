@@ -84,3 +84,7 @@ HDL: Verilog
 Software: Python (for visualization/verification), C (for the ARM processor)
 
 Tools: Xilinx Vivado, VS Code, Git
+
+## Project Plan
+
+For a detailed Agile-style development roadmap including sprints, objectives, tasks, deliverables, and timeline, see the [Project Plan](project_plan.md).
