@@ -4,7 +4,7 @@ This project is an end-to-end implementation of a real-time audio processing and
 Project Overview
 The core goal of this project is to demonstrate a complete, system-level design that bridges the gap between hardware and software. The system performs the following functions:
 
-Capture: Acquires a digital audio stream from an I2S-based microphone.
+Capture: Acquires a digital audio stream from an I2S-based microphone. The system starts with a fully digital audio signal, eliminating the need for on-board analog-to-digital conversion and ensuring high signal integrity from the source.
 
 Process: Modifies the audio in real-time using a custom DSP core implemented in Verilog on the FPGA fabric. This allows for high-speed, low-latency effects that would be difficult to achieve in software alone.
 
@@ -50,9 +50,13 @@ In this project, the FPGA will handle tasks that are computationally too intensi
 
 Multi-Tap FIR Filter: A Finite Impulse Response (FIR) filter is a common DSP tool for equalization. A high-quality filter might require dozens of multiplication and addition operations per audio sample. An FPGA can be configured to perform all of these operations simultaneously, guaranteeing that the processing of one sample is finished before the next one arrives—a feat that is often impossible for a microcontroller at high audio sample rates.
 
+Tunable Band Pass Filter: A configurable band pass filter that can isolate specific frequency ranges of the audio signal. This filter will be designed with programmable center frequency and bandwidth parameters, controllable in real-time from the Python host interface. This demonstrates dynamic reconfiguration capabilities that are crucial for adaptive signal processing applications.
+
 Real-Time Echo/Reverb Effect: Creating a realistic echo requires storing thousands of previous audio samples in memory and combining them. The FPGA can implement a highly efficient memory access and arithmetic pipeline to generate these effects with precise timing and no software overhead.
 
 Concurrent Audio Pipelines: The FPGA can be structured to run multiple audio effects at once, in parallel. For example, we could apply a filter, an echo, and a chorus effect simultaneously, each in its own dedicated hardware block. A microcontroller would have to attempt to run these tasks sequentially, quickly becoming overwhelmed.
+
+*Note: The band pass filter is a planned feature that will demonstrate real-time parameter control from the host PC, showcasing the flexibility of FPGA-based signal processing systems.*
 
 System Architecture
 The system is designed with a clear data path, from initial capture to final visualization.
@@ -76,14 +80,46 @@ Goal: Connect all components into a final, demonstrable system.
 
 Implementation: The audio data from the I2S receiver is piped into the DSP core. The output from the core is then sent to the UART transmitter. A Python script using pyserial and matplotlib is developed to receive and plot the audio data in real-time.
 
-Technologies Used
+## Custom vs Third-Party Components
+
+This project incorporates both custom-designed modules and third-party IP to demonstrate modern FPGA development practices:
+
+### Custom-Designed Components
+- **DSP Processing Cores**: All audio effects (FIR filters, echo/reverb, band pass filters) are implemented from scratch in Verilog to showcase custom hardware design skills
+- **Audio Pipeline Controller**: Custom state machine and timing control logic for managing the audio data flow
+- **UART Communication Interface**: Custom implementation to demonstrate serial protocol design
+- **I2S Receiver Module**: Custom digital audio interface design optimized for the target microphone specifications
+
+### Third-Party IP and Resources
+- **Xilinx Zynq SoC**: Commercial FPGA platform providing ARM processing system and programmable logic
+- **Clock Management**: [Placeholder - Will leverage Xilinx clock management IP or design custom clock dividers]
+- **Memory Controllers**: [Placeholder - May use Xilinx memory interface generators for BRAM/DDR access]
+- **Development Tools**: Xilinx Vivado for synthesis and implementation
+
+*Note: This section will be expanded with specific IP core details as the design progresses and third-party components are integrated.*
+
+## Technologies Used
 Hardware: Xilinx Zynq-7000 SoC
 
-HDL: Verilog
+HDL: Verilog (with SystemVerilog features)
 
 Software: Python (for visualization/verification), C (for the ARM processor)
 
 Tools: Xilinx Vivado, VS Code, Git
+
+### Industry Relevance of Hardware Description Languages
+Verilog and VHDL are fundamental skills in both defense and private industry sectors. These languages enable engineers to design custom silicon solutions for applications ranging from aerospace and defense systems (radar processing, secure communications) to consumer electronics (5G modems, image processors) and automotive systems (sensor fusion, autonomous driving accelerators). The ability to implement algorithms directly in hardware provides the performance and efficiency advantages critical in these demanding applications.
+
+## Future Enhancements and Detailed Specifications
+
+*The following areas will be expanded with detailed technical specifications as the project progresses:*
+
+- **Detailed Hardware Architecture**: Complete block diagrams, timing specifications, and resource utilization analysis
+- **DSP Algorithm Implementation**: Mathematical foundations, fixed-point arithmetic considerations, and optimization strategies
+- **Performance Benchmarking**: Latency measurements, throughput analysis, and comparison with software implementations
+- **Advanced Audio Effects**: Additional DSP algorithms beyond basic filtering and echo effects
+- **Host Interface Extensions**: Enhanced Python GUI with parameter control and advanced visualization features
+- **Integration Testing Results**: Comprehensive validation data and system performance under various operating conditions
 
 ## Project Plan
 

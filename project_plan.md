@@ -4,6 +4,16 @@
 
 This document outlines an Agile-style development roadmap for the Real-Time Audio DSP System on a Xilinx Zynq FPGA. The project implements an end-to-end audio processing and transmission system that captures live audio, applies digital signal processing effects in custom hardware, and transmits results to a host PC for visualization.
 
+### Component Design Strategy
+
+The project balances custom hardware design with strategic use of proven IP cores:
+
+**Custom-Designed Components**: All core DSP algorithms (filters, effects) and control logic will be implemented from scratch to demonstrate FPGA design skills and provide maximum flexibility for optimization.
+
+**Third-Party IP Integration**: [Placeholder - Specific Xilinx IP cores for memory controllers, clock management, and potentially advanced interfaces will be identified and integrated as needed during implementation phases.]
+
+**Open-Source Resources**: [Placeholder - Any open-source Verilog modules or reference designs will be documented here with proper attribution and licensing compliance.]
+
 ### Project Objectives
 
 - **Primary Goal**: Demonstrate a complete system-level design bridging hardware and software
@@ -140,6 +150,7 @@ The project follows a 3-sprint approach aligned with the technical phases, with 
 
 **Tasks**:
 - [ ] Implement multi-tap FIR filter core
+- [ ] Design tunable band pass filter with Python interface control
 - [ ] Design echo/reverb effect module
 - [ ] Create gain control and mixing capabilities
 - [ ] Add coefficient loading via AXI interface
@@ -147,9 +158,11 @@ The project follows a 3-sprint approach aligned with the technical phases, with 
 
 **Acceptance Criteria**:
 - FIR filter processes one sample per clock cycle
+- Band pass filter center frequency and bandwidth are adjustable from host PC
 - Echo effect supports configurable delay (up to 1 second)
 - Coefficient updates don't introduce audio artifacts
 - Processing latency is less than 1ms end-to-end
+- Filter parameters can be changed in real-time without audio dropouts
 
 #### Story 2.3: Audio Pipeline Integration
 **As a** system architect  
@@ -171,7 +184,8 @@ The project follows a 3-sprint approach aligned with the technical phases, with 
 
 ### Deliverables
 - [ ] I2S receiver module with comprehensive testbench
-- [ ] Multi-effect DSP core (FIR filter + echo)
+- [ ] Multi-effect DSP core (FIR filter + tunable band pass filter + echo)
+- [ ] Python interface for real-time filter parameter control
 - [ ] Audio pipeline controller and integration logic
 - [ ] Performance analysis and timing reports
 - [ ] Audio quality validation tests
@@ -218,21 +232,24 @@ The project follows a 3-sprint approach aligned with the technical phases, with 
 
 #### Story 3.2: Advanced Visualization
 **As a** system user  
-**I want** comprehensive real-time audio visualization  
-**So that** I can analyze and demonstrate the DSP effects
+**I want** comprehensive real-time audio visualization and control  
+**So that** I can analyze, control, and demonstrate the DSP effects
 
 **Tasks**:
 - [ ] Enhance Python visualization script
 - [ ] Add frequency domain analysis (FFT)
 - [ ] Create comparative displays (original vs processed)
 - [ ] Implement audio recording and playback
+- [ ] Add real-time control interface for band pass filter parameters
 - [ ] Add performance monitoring dashboard
 
 **Acceptance Criteria**:
 - Real-time time-domain waveform display
 - Live frequency spectrum analysis
 - Side-by-side comparison of original and processed audio
+- Interactive controls for filter center frequency and bandwidth
 - Performance metrics display (latency, throughput, errors)
+- Parameter changes are reflected in real-time without audio interruption
 
 #### Story 3.3: System Optimization
 **As a** performance engineer  
